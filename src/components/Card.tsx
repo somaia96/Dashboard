@@ -1,18 +1,12 @@
 import { IDecisions, IEvents, INews, INewsApi, IServices, ITabs } from "../interfaces";
 import { txtSlicer } from "../utils/functions";
-import { useState } from "react";
 import instance from "../api/instance";
 import FormEditNews from "./Form/FormEdit/FormEditNews";
 import FormEditServ from "./Form/FormEdit/FormEditServ";
 import FormEditEvents from "./Form/FormEdit/FormEditEvent";
 import FormEditDecision from "./Form/FormEdit/FormEditDecision";
 import getToken from "../utils/gitToken";
-import {
-  Dialog,
-  DialogClose,
-  DialogContent,
-  DialogTrigger,
-} from "./ui/dialog";
+
 import {
   Card,
   CardContent,
@@ -20,7 +14,6 @@ import {
   CardHeader,
   CardTitle,
 } from "./ui/card";
-import { Button } from "./ui/button";
 import DeleteDialog from "./Dialog/DeleteDialog";
 import EditDialog from "./Dialog/EditDialog";
 
@@ -32,18 +25,12 @@ interface IProps {
   order?: number;
 }
 export default function CardNews({ order = 0, noPic = true, news, url, tabs }: IProps) {
-  const [itemID, setItemID] = useState<number>(0)
 
   let timestamp = news.activity_date ? new Date(news.activity_date!) : new Date(news.created_at!);
-
-  const handleDelete = (id: number) => {
-    setItemID(id)
-  }
-
   const DeleteItem = async (id: number, url: string) => {
 
     try {
-      let res = await instance.delete(`${url}/${id}`, {
+       await instance.delete(`${url}/${id}`, {
         headers: {
           Authorization: `Bearer ${getToken()}`,
         }
@@ -92,7 +79,7 @@ export default function CardNews({ order = 0, noPic = true, news, url, tabs }: I
                       : null}
             </EditDialog>
 
-            <DeleteDialog url={url} id={news.id} handleDelete={handleDelete} DeleteItem={DeleteItem} />
+            <DeleteDialog url={url} id={news.id} DeleteItem={DeleteItem} />
           </div>
         </div>
         {timestamp && <CardDescription className="mb-2 text-sm text-gray-600">

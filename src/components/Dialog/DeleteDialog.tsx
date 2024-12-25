@@ -8,17 +8,15 @@ import {
 } from "../ui/dialog";
 
 interface IProps {
-    handleDelete: any;
     DeleteItem: any;
     id: number;
     url?: string
 }
-const DeleteDialog = ({ handleDelete, DeleteItem, id, url }: IProps) => {
+const DeleteDialog = ({  DeleteItem, id, url }: IProps) => {
     return (
         <Dialog>
             <DialogTrigger asChild>
                 <Button
-                    onClick={() => handleDelete(id)}
                     type='button' variant="outline" size="lg">
                     حذف
                 </Button>

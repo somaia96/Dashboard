@@ -43,7 +43,7 @@ const Details = ({ tabs, data }: { tabs: { name: string; value: Status; }[], dat
 
         if (tab === Status.Trash) {
             try {
-                let res = await instance.delete(`/complaint/${id}`, {
+                 await instance.delete(`/complaint/${id}`, {
                     headers: {
                         Authorization: `Bearer ${getToken()}`,
                     }
@@ -58,7 +58,7 @@ const Details = ({ tabs, data }: { tabs: { name: string; value: Status; }[], dat
         }
 
         try {
-            let res = await instance.post(`/complaint/${id}`, compData, {
+             await instance.post(`/complaint/${id}`, compData, {
                 headers: {
                     "Content-Type": "multipart/form-data",
                     Authorization: `Bearer ${getToken()}`,

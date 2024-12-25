@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { IMembers } from "../../interfaces";
 import instance from "../../api/instance";
 import FormEditMember from "../Form/FormEdit/FormEditMember";
@@ -18,14 +17,11 @@ import EditDialog from "../Dialog/EditDialog";
 
 function Member({ member }: { member: IMembers }) {
 
-  const [itemID, setItemID] = useState<number>(0)
-  const handleDelete = (id: number) => {
-    setItemID(id)
-  }
+
 
   const DeleteItem = async (id: number) => {
     try {
-      let res = await instance.delete(`/council-members/${id}`, {
+       await instance.delete(`/council-members/${id}`, {
         headers: {
           Authorization: `Bearer ${getToken()}`,
         }
@@ -70,7 +66,7 @@ function Member({ member }: { member: IMembers }) {
           <EditDialog>
             <FormEditMember member={member} />
           </EditDialog>
-          <DeleteDialog id={member.id!} handleDelete={handleDelete} DeleteItem={DeleteItem} />
+          <DeleteDialog id={member.id!} DeleteItem={DeleteItem} />
         </div>
       </CardFooter>
     </Card >

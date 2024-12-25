@@ -1,9 +1,8 @@
-// import { Button } from "@material-tailwind/react"
 import { NavLink } from "react-router-dom"
 import { navLink } from "../../data"
 import { useNavigate } from "react-router-dom";
 import { Button } from "../ui/button";
-import { BellIcon, EnterIcon, FaceIcon } from "@radix-ui/react-icons";
+import { BellIcon, EnterIcon } from "@radix-ui/react-icons";
 
 const SideBar = () => {
     let navigate = useNavigate()

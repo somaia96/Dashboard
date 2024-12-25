@@ -10,16 +10,16 @@ import ServicesSkeleton from '../components/Skeleton/ServicesSkeleton';
 import FormAddServ from '../components/Form/FormsAdd/FormAddServ';
 import getToken from "../utils/gitToken";
 import PaginationComponent from "../components/Paginition";
-import Toast from '../components/Toast';
+// import Toast from '../components/Toast';
 import DialogAddCategory from "../components/Services/DialogAddCategory"
 import DialogEditCategory from "../components/Services/DialogEditCategory"
-import { useToast } from "../hooks/use-toast";
+// import { useToast } from "../hooks/use-toast";
 
  const Services = () => {
   const [page, setPage] = useState(1);
   const [startIndex, setStartIndex] = useState(0);
   const endIndex = startIndex + 4;
-  const { toast } = useToast();
+  // const { toast } = useToast();
   const [addArr, setAddArr] = useState([]);
   const [delArr, setDelArr] = useState<number[]>([]);
   const [activeTab, setActiveTab] = useState<number>(1);
@@ -41,10 +41,10 @@ import { useToast } from "../hooks/use-toast";
     setAddArr((prev) => prev.filter((item: ITabs) => item.id !== idDel))
   }
   
-  const cancelEditHandler = () => {
-    setAddArr(data?.tabRes.data.data)
-    setDelArr([])
-  }
+  // const cancelEditHandler = () => {
+  //   setAddArr(data?.tabRes.data.data)
+  //   setDelArr([])
+  // }
   
   const submitEditCatHandler = async () => {
     try {

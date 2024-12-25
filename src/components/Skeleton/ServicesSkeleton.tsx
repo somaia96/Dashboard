@@ -2,7 +2,7 @@ import  FormAddSkeleton  from "./FormAddSkeleton";
 import  TabSkeleton  from "./TabSkeleton";
 import  CardSkeleton  from "./CardSkeleton";
 
-const ServicesSkeleton = ({noPic=true}:{noPic?:boolean}) => {
+const ServicesSkeleton = () => {
     return (
         <div className="my-10 space-y-5 flex flex-col items-center justify-center">
         <FormAddSkeleton serv={true} />
