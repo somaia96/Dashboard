@@ -30,7 +30,7 @@ export default function FormAddMember() {
             reset();
         }
         if (isError) {
-            Toast("حدث خطأ أثناء ارسال العضو ❌", "destructive", toast);
+            Toast("حدث خطأ أثناء ارسال العضو ✖", "destructive", toast);
         }
     }, [isSuccess, isError, toast, reset]);
 
@@ -45,7 +45,7 @@ export default function FormAddMember() {
                     <h2 className='font-bold text-xl text-center text-primary mb-5'>اضافة عضو جديد</h2>
                     <Input register={register} label="الاسم" name="name" placeholder="اسم العضو" />
                     <Input register={register} label="المنصب" name="job_title" placeholder="المنصب" />
-                    <TextArea label="نبذة" name="description" placeholder='نبذة عن العضو' register={register} />
+                    <TextArea label="نبذة" placeholder='نبذة عن العضو' register={register} />
                     <InputFile name="photo" register={register} />
                 </div>
                 <div className='flex justify-center gap-3 mt-5'>

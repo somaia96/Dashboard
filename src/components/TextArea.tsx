@@ -2,23 +2,22 @@ import { Textarea } from "./ui/textarea"
 
 interface IProps {
   register: any;
-  label: string;
+  label?: string;
   placeholder: string;
-  name: string;
   value?: string;
 
 }
-const TextArea = ({ value, register, label, placeholder, name }: IProps) => {
+const TextArea = ({ value, register, label="النص", placeholder }: IProps) => {
   return (
     <div className="flex items-center justify-between">
-      <label htmlFor={name} className="font-medium w-16 text-sm text-gray-700">
+      <label htmlFor="description" className="font-medium w-16 text-sm text-gray-700">
         {label} :
       </label>
       <div className="w-full">
         <Textarea
-          {...register(name, { required: true })}
-          id={name}
-          name={name}
+          {...register("description", { required: true })}
+          id="description"
+          name="description"
           defaultValue={value ? value : ""}
           placeholder={placeholder}
         />

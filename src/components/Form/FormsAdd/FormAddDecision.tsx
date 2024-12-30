@@ -14,7 +14,7 @@ import { useEffect } from 'react';
 export default function FormAddDecision() {
     const { register, handleSubmit, reset } = useForm<IDecisions>()
     const { toast } = useToast();
-    const { mutate,isSuccess,isError } = useMutation({
+    const { mutate, isSuccess, isError } = useMutation({
         mutationFn: (decision: IDecisions) => {
             return instance.post(`/decision`, decision, {
                 headers: {
@@ -30,14 +30,14 @@ export default function FormAddDecision() {
             reset();
         }
         if (isError) {
-            Toast("حدث خطأ أثناء ارسال القرار ❌", "destructive", toast);
+            Toast("حدث خطأ أثناء ارسال القرار ✖", "destructive", toast);
         }
     }, [isSuccess, isError, toast, reset]);
 
     const onSubmit: SubmitHandler<IDecisions> = decision => {
         mutate(decision)
-  };
- 
+    };
+
     return (
         <div className='w-9/12 m-auto flex gap-3 p-5 my-10 rounded-3xl bg-white'>
             <form className='w-full rounded-xl' onSubmit={handleSubmit(onSubmit)}>
@@ -45,15 +45,15 @@ export default function FormAddDecision() {
                     <h2 className='font-bold text-xl text-center text-primary mb-5'>اضافة قرار جديد</h2>
                     <Input register={register} label="العنوان" name="title" placeholder="عنوان القرار" />
                     <Input type="date" register={register} label="التاريخ" name="decision_date" />
-                    <TextArea label="النص" name="description" placeholder='نص القرار' register={register} />
+                    <TextArea placeholder='نص القرار' register={register} />
                     <InputFile name="photos" register={register} />
                 </div>
                 <div className='flex justify-center gap-3 mt-5'>
                     <Button size="special">
-                    نشر
+                        نشر
                     </Button>
                     <Button type='button' variant="outline" size="special">
-                    الغاء
+                        الغاء
                     </Button>
                 </div>
             </form>

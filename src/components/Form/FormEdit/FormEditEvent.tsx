@@ -12,12 +12,13 @@ import InputFile from "../../InputFile";
 import { useForm, SubmitHandler } from "react-hook-form"
 import { useMutation } from '@tanstack/react-query';
 import Toast from '../../Toast';
+import { DialogTitle } from '@radix-ui/react-dialog';
 
 export default function FormEditEvents({ item, tabs }: { item: IEvents, tabs?: ITabs[] }) {
     const { register, handleSubmit, reset } = useForm<IEvents>()
     const { toast } = useToast();
     const [activeTab, setActiveTab] = useState(item.activity_type_name)
-    const { mutate,isSuccess,isError } = useMutation({
+    const { mutate, isSuccess, isError } = useMutation({
         mutationFn: (event: IEvents) => {
             return instance.post(`/activity/${item.id}`, { ...event, activity_type_name: activeTab, activity_date: item.activity_date?.toString().split('T')[0], _method: "PUT" }, {
                 headers: {
@@ -33,7 +34,7 @@ export default function FormEditEvents({ item, tabs }: { item: IEvents, tabs?: I
             reset();
         }
         if (isError) {
-            Toast("حدث خطأ أثناء تعديل الفعالية ❌", "destructive", toast);
+            Toast("حدث خطأ أثناء تعديل الفعالية ✖", "destructive", toast);
         }
     }, [isSuccess, isError, toast, reset]);
 
@@ -45,8 +46,7 @@ export default function FormEditEvents({ item, tabs }: { item: IEvents, tabs?: I
         <div className='flex gap-3 p-5 my-10 rounded-3xl bg-white'>
             <form className='w-full rounded-xl' onSubmit={handleSubmit(onSubmit)}>
                 <div className="space-y-2">
-                    <h2 className='font-bold text-xl text-center text-primary mb-5'>تعديل الفعالية</h2>
-
+                    <DialogTitle className='font-bold text-xl text-center text-primary mb-5'>تعديل الفعالية</DialogTitle>
                     <div className="flex items-center justify-between">
                         <label htmlFor="name" className="text-sm font-medium w-16 leading-6 text-gray-900">
                             النوع
@@ -65,22 +65,19 @@ export default function FormEditEvents({ item, tabs }: { item: IEvents, tabs?: I
                     </div>
                     <Input value={item.title} register={register} label="العنوان" name="title" placeholder="عنوان الفعالية" />
                     <Input value={item.activity_date?.toString().split('T')[0]} type="date" register={register} label="التاريخ" name="activity_date" />
-                    <TextArea value={item.description} label="النص" name="description" placeholder='نص الفعالية' register={register} />
+                    <TextArea value={item.description} placeholder='نص الفعالية' register={register} />
                     <InputFile name="photos" register={register} />
                 </div>
                 <div className='flex justify-center gap-3 mt-5'>
-                    <button
-                        className="w-1/3 my-3 rounded-lg bg-primary py-2 font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-                    >
-                        تعديل
-                    </button>
                     <DialogClose asChild>
-                        <button
-                            type='button'
-                            className="w-1/3 my-3 rounded-lg border-2 border-red-800 py-2 font-semibold text-red-800 shadow-sm hover:bg-red-500 hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-                        >
+                        <Button size="special" >
+                            تعديل
+                        </Button>
+                    </DialogClose>
+                    <DialogClose asChild>
+                        <Button variant="outline" type='button' size="special" >
                             الغاء
-                        </button>
+                        </Button>
                     </DialogClose>
                 </div>
             </form>

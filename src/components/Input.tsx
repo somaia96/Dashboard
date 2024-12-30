@@ -7,17 +7,19 @@ interface IProps {
   register: any;
   type?: string;
   value?: string | Date;
+  style?:{};
+  styleLabel?:{};
 }
 
-const Input = ({ value, type, placeholder, name, label, register }: IProps) => {
+const Input = ({ value, type, placeholder, name,styleLabel, label,style, register }: IProps) => {
   return (
-    <div className="flex items-center justify-between">
-      <label htmlFor={name} className="font-medium w-16 text-sm text-gray-600">
+    <div className="flex items-center justify-between" style={style} >
+      <label style={styleLabel} htmlFor={name} className="font-medium w-16 text-sm text-gray-600">
         {label} :
       </label>
       <div className="rounded-md w-full">
         <Inputs
-          {...register(`${name}`)}
+          {...register(name)}
           id={name}
           name={name}
           defaultValue={value ? value : ""}

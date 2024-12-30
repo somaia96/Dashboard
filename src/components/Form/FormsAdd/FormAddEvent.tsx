@@ -16,9 +16,9 @@ export default function FormAddEvents({ tabs }: { tabs: ITabs[] }) {
     const [activeTab, setActiveTab] = useState("")
     const { register, handleSubmit, reset } = useForm<IEvents>()
     const { toast } = useToast();
-    const { mutate,isSuccess,isError } = useMutation({
+    const { mutate, isSuccess, isError } = useMutation({
         mutationFn: (event: IEvents) => {
-            return instance.post(`/activity`, event , {
+            return instance.post(`/activity`, event, {
                 headers: {
                     "Content-Type": "multipart/form-data",
                     Authorization: `Bearer ${getToken()}`,
@@ -32,31 +32,31 @@ export default function FormAddEvents({ tabs }: { tabs: ITabs[] }) {
             reset();
         }
         if (isError) {
-            Toast("حدث خطأ أثناء ارسال الفعالية ❌", "destructive", toast);
+            Toast("حدث خطأ أثناء ارسال الفعالية ✖", "destructive", toast);
         }
     }, [isSuccess, isError, toast, reset]);
 
     const onSubmit: SubmitHandler<IEvents> = event => {
         mutate(event)
     };
-   
+
     return (
         <div className='w-9/12 m-auto flex gap-3 p-5 my-10 rounded-3xl bg-white'>
             <form className='w-full rounded-xl' onSubmit={handleSubmit(onSubmit)}>
                 <div className="space-y-2">
                     <h2 className='font-bold text-xl text-center text-primary mb-5'>اضافة فعالية جديدة</h2>
-                    <Tabs register={register} activeTab={activeTab} tabs={tabs} setActiveTab={setActiveTab} />
+                    <Tabs name="activity_type_name" type='name' register={register} activeTab={activeTab} tabs={tabs} setActiveTab={setActiveTab} />
                     <Input register={register} label="العنوان" name="title" placeholder="عنوان الفعالية" />
                     <Input type="date" register={register} label="التاريخ" name="activity_date" />
-                    <TextArea label="النص" name="description" placeholder='نص الفعالية' register={register} />
+                    <TextArea placeholder='نص الفعالية' register={register} />
                     <InputFile name="photo" register={register} />
                 </div>
                 <div className='flex justify-center gap-3 mt-5'>
                     <Button size="special">
-                    نشر
+                        نشر
                     </Button>
                     <Button type='button' variant="outline" size="special">
-                    الغاء
+                        الغاء
                     </Button>
                 </div>
             </form>

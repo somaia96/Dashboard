@@ -30,7 +30,7 @@ export default function FormAddNews() {
             reset();
         }
         if (isError) {
-            Toast("حدث خطأ أثناء ارسال الخبر ❌", "destructive", toast);
+            Toast("حدث خطأ أثناء ارسال الخبر ✖", "destructive", toast);
         }
     }, [isSuccess, isError, toast, reset]);
 
@@ -44,7 +44,7 @@ export default function FormAddNews() {
                 <div className="space-y-2">
                     <h2 className='font-bold text-xl text-center text-primary mb-5'>اضافة خبر جديد</h2>
                     <Input register={register} label="العنوان" name="title" placeholder="عنوان الخبر" />
-                    <TextArea label="النص" name="description" placeholder='نص الخبر' register={register} />
+                    <TextArea placeholder='نص الخبر' register={register} />
                     <InputFile name="photos" register={register} />
                 </div>
                 <div className='flex justify-center gap-3 mt-5'>

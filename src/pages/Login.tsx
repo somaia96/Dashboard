@@ -1,97 +1,66 @@
 import { Toaster } from "../components/ui/toaster";
 import instance from "../api/instance";
-import { ChangeEvent, FormEvent, useState } from "react";
+import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { useToast } from "../hooks/use-toast";
+import Toast from '../components/Toast';
+import Input from "../components/Input";
+import { useForm, SubmitHandler } from "react-hook-form"
+import { useMutation } from "@tanstack/react-query";
+import { Button } from "../components/ui/button";
+
+interface IUser {
+    email: string;
+    password: string;
+}
 
 const Login = () => {
-    let navigate = useNavigate()
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
-    const storeToken = (token:string) => {
+    const { register, handleSubmit, reset } = useForm<IUser>()
+    let navigate = useNavigate();
+    const { toast } = useToast();
+    const storeToken = (token: string) => {
         localStorage.setItem('tokenMunicipality', token);
-      };
-      
-    const changeHandler = async (e: ChangeEvent<HTMLInputElement>) => {
-        const { name, value } = e.target;
-        if(name == "password") return setPassword(value)
-            setEmail(value)
-    }
-
-    const submitHandler = async (e: FormEvent<HTMLFormElement>) => {
-        e.preventDefault()
-        try {
-            let res = await instance.post('/admin/login', {
-                "email": email,
-                "password": password
-            });
-            storeToken(res.data.token);
-            if(res.status === 200 || res.status === 201) {
-                // toasty("success",'تم تسجيل الدخول بنجاح') ;
-                setTimeout(()=>{
-                    navigate("/")
-                } ,2000);
-        }
-        } catch (error) {
-            console.log(error);
-            // toasty("error",'تأكد من صحة المعلومات')
     };
-    }
+
+    const { mutate, isSuccess, isError, data } = useMutation({
+        mutationFn: (user: IUser) => {
+            return instance.post('/admin/login', user);
+        }
+    });
+    useEffect(() => {
+        if (isSuccess) {
+            storeToken(data.data.token);
+            setTimeout(() => {
+                navigate("/")
+            }, 2000);
+            Toast("تم تسجيل الدخول بنجاح 👏", "default", toast, "bg-blue-100");
+            reset();
+        }
+        if (isError) {
+            Toast("تأكد من صحة المعلومات ✖", "destructive", toast);
+        }
+    }, [isSuccess, isError, toast, reset]);
+
+    const onSubmit: SubmitHandler<IUser> = user => {
+        mutate(user)
+    };
+
     return (
         <div className="h-screen flex container items-center justify-center">
-          <div className="flex rounded-lg overflow-hidden w-3/4">
-            <Toaster/>
-          <div className="w-2/5 bg-white p-10">
-                <form className='w-full rounded-xl' onSubmit={(e) => submitHandler(e)}>
-                   <div className="space-y-3">
-                        <h2 className='font-bold text-xl text-center text-primary mb-5'>مرحبا بكم في لوحة تحكم بلدية ضاحية الأسد</h2>
-
-                        <div className="space-y-2">
-                            <label htmlFor="name" className="text-sm font-medium w-16 leading-6 text-gray-900">
-                                الحساب الالكتروني
-                            </label>
-                            <div className="flex rounded-md shadow-sm flex-1">
-                                <input
-                                    id="email"
-                                    name="email"
-                                    type="email"
-                                    placeholder="الحساب الالكتروني"
-                                    autoComplete="email"
-                                    value={email}
-                                    onChange={(e) => { changeHandler(e) }}
-                                    className="bg-white block border border-1 border-gray-300 flex-1 rounded-lg px-3 py-1.5 placeholder:text-gray-400 sm:text-sm w-full sm:leading-6"
-                                />
-                            </div>
-                        </div>
-
-                        <div className="space-y-2">
-                            <label htmlFor="password" className="text-sm font-medium w-16 leading-6 text-gray-900">
-                                كلمة السر
-                            </label>
-                            <div className="flex rounded-md shadow-sm flex-1">
-                                <input
-                                    id="password"
-                                    name="password"
-                                    type="password"
-                                    placeholder="كلمة السر"
-                                    autoComplete="password"
-                                    value={password}
-                                    onChange={(e) => { changeHandler(e) }}
-                                    className="bg-white block border border-1 border-gray-300 flex-1 rounded-lg px-3 py-1.5 placeholder:text-gray-400 sm:text-sm w-full sm:leading-6"
-                                />
-                            </div>
-                        </div>
-                    </div>
-                    <button
-                        className="w-full my-5 rounded-lg bg-primary py-2 font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-                    >
+            <div className="flex rounded-lg overflow-hidden w-3/4">
+                <Toaster />
+                <form className='w-2/5 bg-white p-10 space-y-5 rounded-xl' onSubmit={handleSubmit(onSubmit)}>
+                    <h2 className='font-bold text-xl text-center text-primary mb-5'>مرحبا بكم في لوحة تحكم بلدية ضاحية الأسد</h2>
+                    <Input styleLabel={{ width: "auto" }} style={{ gap: "8px", flexDirection: "column", alignItems: "start" }} register={register} label="الحساب الالكتروني" name="email" placeholder="الحساب الالكتروني" type="email" />
+                    <Input styleLabel={{ width: "auto" }} style={{ gap: "8px", flexDirection: "column", alignItems: "start" }} register={register} label="كلمة السر" name="password" placeholder="كلمة السر" type="password" />
+                    <Button className="w-full">
                         تسجيل الدخول
-                    </button>
+                    </Button>
                 </form>
+                <div className="flex-1">
+                    <img className="h-full w-auto" src="/images/headerBG.jpg" alt="background" />
+                </div>
             </div>
-            <div className="flex-1">
-                <img className="h-full w-auto" src="/images/headerBG.jpg" alt="background" />
-            </div>
-          </div>
         </div>
     )
 }
