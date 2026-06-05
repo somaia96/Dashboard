@@ -97,7 +97,7 @@ const Details = ({ tabs, data }: { tabs: { name: string; value: Status; }[], dat
                     <div className="overflow-hidden w-full max-h-80">
                         {
                             data.photos?.length > 0 ?
-                                <img className="w-full h-auto" src={data.photos[0]} alt="complaint" />
+                                <img className="w-full h-auto" src={data.photos[0]["photo_url"]} alt="complaint" />
                                 :
                                 <img className="w-full h-auto" src="/images/empty.jpg" alt="empty" />
                         }

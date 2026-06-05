@@ -35,6 +35,7 @@ const TableCom = ({ endIndex, tabs, activeTab, filteredComp, startIndex }: IProp
         photos: []
     })
     const queryClient = useQueryClient();
+console.log(filteredComp);
 
     const forceDeleteHandler = async (id: number) => {
         try {

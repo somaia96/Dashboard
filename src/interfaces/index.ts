@@ -61,7 +61,7 @@ export interface IComplaints{
       number: string,
       description: string,
       status: Status,
-      photos: string[],
+      photos: {photo_url:string}[],
       created_at:string,
     _method?:string,
 }
