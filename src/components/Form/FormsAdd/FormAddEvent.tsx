@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import instance from '../../../api/instance'
 import { Button } from '../../ui/button';
 import { IEvents, ITabs } from '../../../interfaces';
@@ -14,9 +14,9 @@ import Toast from '../../Toast';
 import { getTodayDateString } from '../../../utils/functions';
 
 export default function FormAddEvents({ tabs }: { tabs: ITabs[] }) {
-    
+
     const [activeTab, setActiveTab] = useState("")
-        const queryClient = useQueryClient();
+    const queryClient = useQueryClient();
 
     const { register, handleSubmit, reset, setValue } = useForm<IEvents>()
     const { toast } = useToast();
@@ -29,7 +29,7 @@ export default function FormAddEvents({ tabs }: { tabs: ITabs[] }) {
                 }
             })
         },
-         onSuccess: () => {
+        onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ['activityData'] });
         }
     });

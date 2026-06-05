@@ -31,8 +31,7 @@ export default function Complaints() {
             })
             setFilteredComp(comp.data.data)
             return { comp, trash }
-        },
-        
+        }
     })
 
     const count = Math.ceil(filteredComp?.length / 9);

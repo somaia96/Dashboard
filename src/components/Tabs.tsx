@@ -2,6 +2,7 @@ import { ITabs } from '@/interfaces';
 import { txtSlicer } from '../utils/functions';
 import { Button } from './ui/button';
 import { Dispatch, SetStateAction } from 'react';
+import { useQueryClient } from '@tanstack/react-query';
 
 interface IProps {
     setActiveTab: Dispatch<SetStateAction<any>>;
@@ -13,6 +14,13 @@ interface IProps {
 }
 
 const Tabs = ({ activeTab, setActiveTab, name, type, tabs, register }: IProps) => {
+    const queryClient = useQueryClient();
+
+    const changeTabsHandler = (tab: ITabs) => {
+        setActiveTab(tab[type]!)
+        queryClient.invalidateQueries({ queryKey: ['complaint'] });
+
+    }
 
     return (
         <div className="flex items-center">
@@ -26,7 +34,7 @@ const Tabs = ({ activeTab, setActiveTab, name, type, tabs, register }: IProps) =
                         key={tab.id}
                         type='button'
                         size="lg"
-                        onClick={() => setActiveTab(tab[type]!)}
+                        onClick={() => changeTabsHandler(tab)}
                         variant={activeTab === tab[type] ? "default" : "link"}
                     >
                         <input

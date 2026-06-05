@@ -14,6 +14,7 @@ import Details from "./Details";
 import { useState } from "react";
 import { Dialog, DialogContent } from "../ui/dialog";
 import { DialogTrigger } from "@radix-ui/react-dialog";
+import { useQueryClient } from "@tanstack/react-query";
 
 
 interface IProps {
@@ -33,13 +34,17 @@ const TableCom = ({ endIndex, tabs, activeTab, filteredComp, startIndex }: IProp
         created_at: "",
         photos: []
     })
-    const forceDeleteHandler = (id: number) => {
+    const queryClient = useQueryClient();
+
+    const forceDeleteHandler = async (id: number) => {
         try {
-            instance.delete(`/complaints/${id}/force`, {
+            await instance.delete(`/complaints/${id}/force`, {
                 headers: {
                     Authorization: `Bearer ${getToken()}`
                 }
             })
+            queryClient.invalidateQueries({ queryKey: ['complaint'] });
+
 
         } catch (error) {
             console.log(error);
@@ -50,14 +55,15 @@ const TableCom = ({ endIndex, tabs, activeTab, filteredComp, startIndex }: IProp
     // Axios post syntax: (url, data, config). 
     // We must pass an empty body {} so the headers remain in the 3rd argument.
     // Removing it will misplace the headers and trigger a "401 Unauthorized" error.
-    const restoreHandler = (id: number) => {
+    const restoreHandler = async (id: number) => {
         try {
-            instance.post(`/complaints/${id}/restore`, {}, {
+            await instance.post(`/complaints/${id}/restore`, {}, {
                 headers: {
                     "Content-Type": "application/json",
                     Authorization: `Bearer ${getToken()}`
                 }
             })
+            queryClient.invalidateQueries({ queryKey: ['complaint'] });
 
         } catch (error) {
             console.log(error);
