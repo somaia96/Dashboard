@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import instance from '../../../api/instance'
 import { Button } from '../../ui/button';
 import { IEvents, ITabs } from '../../../interfaces';
@@ -11,10 +11,12 @@ import { useForm, SubmitHandler } from "react-hook-form"
 import { useMutation } from '@tanstack/react-query';
 import Tabs from '../../Tabs';
 import Toast from '../../Toast';
+import { getTodayDateString } from '../../../utils/functions';
 
 export default function FormAddEvents({ tabs }: { tabs: ITabs[] }) {
+    
     const [activeTab, setActiveTab] = useState("")
-    const { register, handleSubmit, reset } = useForm<IEvents>()
+    const { register, handleSubmit, reset, setValue } = useForm<IEvents>()
     const { toast } = useToast();
     const { mutate, isSuccess, isError } = useMutation({
         mutationFn: (event: IEvents) => {
@@ -47,9 +49,9 @@ export default function FormAddEvents({ tabs }: { tabs: ITabs[] }) {
                     <h2 className='font-bold text-xl text-center text-primary mb-5'>اضافة فعالية جديدة</h2>
                     <Tabs name="activity_type_name" type='name' register={register} activeTab={activeTab} tabs={tabs} setActiveTab={setActiveTab} />
                     <Input register={register} label="العنوان" name="title" placeholder="عنوان الفعالية" />
-                    <Input type="date" register={register} label="التاريخ" name="activity_date" />
+                    <Input value={getTodayDateString()} type="date" register={register} label="التاريخ" name="activity_date" />
                     <TextArea placeholder='نص الفعالية' register={register} />
-                    <InputFile name="photo" register={register} />
+                    <InputFile setValue={setValue} name="photos" register={register} />
                 </div>
                 <div className='flex justify-center gap-3 mt-5'>
                     <Button size="special">

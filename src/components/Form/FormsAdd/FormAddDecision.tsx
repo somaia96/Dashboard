@@ -9,14 +9,17 @@ import { useForm, SubmitHandler } from "react-hook-form"
 import { useMutation } from '@tanstack/react-query';
 import { Button } from '../../ui/button';
 import Toast from '../../Toast';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
+import { getTodayDateString } from '../../../utils/functions';
 
 export default function FormAddDecision() {
-    const { register, handleSubmit, reset } = useForm<IDecisions>()
+    const { register, handleSubmit, reset, setValue } = useForm<IDecisions>()
     const { toast } = useToast();
+    const [fileKey, setFileKey] = useState(0);
+
     const { mutate, isSuccess, isError } = useMutation({
         mutationFn: (decision: IDecisions) => {
-            return instance.post(`/decision`, decision, {
+            return instance.post(`/decision`, { ...decision, decision_id: 154575 }, {
                 headers: {
                     "Content-Type": "multipart/form-data",
                     Authorization: `Bearer ${getToken()}`
@@ -28,6 +31,8 @@ export default function FormAddDecision() {
         if (isSuccess) {
             Toast("تم ارسال قرار بنجاح 👏", "default", toast, "bg-blue-100");
             reset();
+            setFileKey(prev => prev + 1);
+
         }
         if (isError) {
             Toast("حدث خطأ أثناء ارسال القرار ✖", "destructive", toast);
@@ -44,9 +49,9 @@ export default function FormAddDecision() {
                 <div className="space-y-2">
                     <h2 className='font-bold text-xl text-center text-primary mb-5'>اضافة قرار جديد</h2>
                     <Input register={register} label="العنوان" name="title" placeholder="عنوان القرار" />
-                    <Input type="date" register={register} label="التاريخ" name="decision_date" />
+                    <Input type="date" value={getTodayDateString()} register={register} label="التاريخ" name="decision_date" />
                     <TextArea placeholder='نص القرار' register={register} />
-                    <InputFile name="photos" register={register} />
+                    <InputFile key={fileKey} setValue={setValue} name="photos" register={register} />
                 </div>
                 <div className='flex justify-center gap-3 mt-5'>
                     <Button size="special">

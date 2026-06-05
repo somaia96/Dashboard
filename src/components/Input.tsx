@@ -12,6 +12,7 @@ interface IProps {
 }
 
 const Input = ({ value, type, placeholder, name,styleLabel, label,style, register }: IProps) => {
+  
   return (
     <div className="flex items-center justify-between" style={style} >
       <label style={styleLabel} htmlFor={name} className="font-medium w-16 text-sm text-gray-600">

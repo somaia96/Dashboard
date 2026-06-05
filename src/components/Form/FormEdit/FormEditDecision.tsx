@@ -13,11 +13,14 @@ import { useEffect } from 'react';
 import { Button } from '../../ui/button';
 
 export default function FormEditDecision({ item }: { item: IDecisions }) {
-    const { register, handleSubmit, reset } = useForm<IDecisions>()
+    const { register, handleSubmit, reset, setValue } = useForm<IDecisions>({
+        defaultValues: item
+    })
     const { toast } = useToast();
     const { mutate, isSuccess, isError } = useMutation({
         mutationFn: (decision: IDecisions) => {
-            return instance.post(`/decision/${item.id}`, { ...decision, decision_id: item.decision_id, decision_date: item.decision_date?.toString().split('T')[0], _method: "PUT", }, {
+            
+            return instance.post(`/decision/${item.id}`, { ...decision,photos:decision.photo, _method: "PUT", }, {
                 headers: {
                     "Content-Type": "multipart/form-data",
                     Authorization: `Bearer ${getToken()}`
@@ -44,14 +47,14 @@ export default function FormEditDecision({ item }: { item: IDecisions }) {
             <form className='w-full rounded-xl' onSubmit={handleSubmit(onSubmit)}>
                 <div className="space-y-2">
                     <DialogTitle className='font-bold text-xl text-center text-primary mb-5'>تعديل القرار</DialogTitle>
-                    <Input value={item.title} register={register} label="العنوان" name="title" placeholder="عنوان القرار" />
+                    <Input register={register} label="العنوان" name="title" placeholder="عنوان القرار" />
                     <Input value={item.decision_date?.toString().split('T')[0]} type="date" register={register} label="التاريخ" name="decision_date" />
-                    <TextArea value={item.description} placeholder='نص القرار' register={register} />
-                    <InputFile name="photo" register={register} />
+                    <TextArea placeholder='نص القرار' register={register} />
+                    <InputFile setValue={setValue} name="photo" register={register} />
                 </div>
                 <div className='flex justify-center gap-3 mt-5'>
                     <DialogClose asChild>
-                        <Button size="special" >
+                        <Button size="special" type='submit' >
                             تعديل
                         </Button>
                     </DialogClose>

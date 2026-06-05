@@ -15,7 +15,7 @@ import Toast from '../../Toast';
 import { DialogTitle } from '@radix-ui/react-dialog';
 
 export default function FormEditEvents({ item, tabs }: { item: IEvents, tabs?: ITabs[] }) {
-    const { register, handleSubmit, reset } = useForm<IEvents>()
+    const { register, handleSubmit, reset, setValue } = useForm<IEvents>()
     const { toast } = useToast();
     const [activeTab, setActiveTab] = useState(item.activity_type_name)
     const { mutate, isSuccess, isError } = useMutation({
@@ -66,11 +66,11 @@ export default function FormEditEvents({ item, tabs }: { item: IEvents, tabs?: I
                     <Input value={item.title} register={register} label="العنوان" name="title" placeholder="عنوان الفعالية" />
                     <Input value={item.activity_date?.toString().split('T')[0]} type="date" register={register} label="التاريخ" name="activity_date" />
                     <TextArea value={item.description} placeholder='نص الفعالية' register={register} />
-                    <InputFile name="photos" register={register} />
+                    <InputFile setValue={setValue} name="photos" register={register} />
                 </div>
                 <div className='flex justify-center gap-3 mt-5'>
                     <DialogClose asChild>
-                        <Button size="special" >
+                        <Button size="special" type='submit' >
                             تعديل
                         </Button>
                     </DialogClose>

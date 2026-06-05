@@ -22,7 +22,7 @@ const Login = () => {
         localStorage.setItem('tokenMunicipality', token);
     };
 
-    const { mutate, isSuccess, isError, data } = useMutation({
+    const { mutate, isSuccess, isError, data,error } = useMutation({
         mutationFn: (user: IUser) => {
             return instance.post('/admin/login', user);
         }
@@ -37,6 +37,8 @@ const Login = () => {
             reset();
         }
         if (isError) {
+            console.log(error);
+            
             Toast("تأكد من صحة المعلومات ✖", "destructive", toast);
         }
     }, [isSuccess, isError, toast, reset]);
@@ -50,7 +52,7 @@ const Login = () => {
             <div className="flex rounded-lg overflow-hidden w-3/4">
                 <Toaster />
                 <form className='w-2/5 bg-white p-10 space-y-5 rounded-xl' onSubmit={handleSubmit(onSubmit)}>
-                    <h2 className='font-bold text-xl text-center text-primary mb-5'>مرحبا بكم في لوحة تحكم بلدية ضاحية الأسد</h2>
+                    <h2 className='font-bold text-xl text-center text-primary mb-5'>مرحبا بكم في لوحة تحكم بلدية ضاحية</h2>
                     <Input styleLabel={{ width: "auto" }} style={{ gap: "8px", flexDirection: "column", alignItems: "start" }} register={register} label="الحساب الالكتروني" name="email" placeholder="الحساب الالكتروني" type="email" />
                     <Input styleLabel={{ width: "auto" }} style={{ gap: "8px", flexDirection: "column", alignItems: "start" }} register={register} label="كلمة السر" name="password" placeholder="كلمة السر" type="password" />
                     <Button className="w-full">

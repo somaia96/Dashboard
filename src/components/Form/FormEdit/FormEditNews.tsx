@@ -13,11 +13,14 @@ import { DialogTitle } from "../../ui/dialog";
 import { useEffect } from 'react';
 import { Button } from '../../ui/button';
 export default function FormEditNews({ item }: { item: INews }) {
-    const { register, handleSubmit, reset } = useForm<INews>()
+    const { register, handleSubmit, reset, setValue } = useForm<INews>({
+        defaultValues: item
+    })
     const { toast } = useToast();
     const { mutate, isSuccess, isError } = useMutation({
         mutationFn: (news: INews) => {
-            return instance.post(`/news/${item.id}`, { ...news, _method: "PUT" }, {
+
+            return instance.post(`/news/${item.id}`, { ...news,photos:news.photo, _method: "PUT" }, {
                 headers: {
                     "Content-Type": "multipart/form-data",
                     Authorization: `Bearer ${getToken()}`
@@ -44,13 +47,13 @@ export default function FormEditNews({ item }: { item: INews }) {
             <form className='w-full rounded-xl' onSubmit={handleSubmit(onSubmit)}>
                 <div className="space-y-2">
                     <DialogTitle className='font-bold text-xl text-center text-primary mb-5'>تعديل الخبر</DialogTitle>
-                    <Input value={item.title} register={register} label="العنوان" name="title" placeholder="عنوان الخبر" />
-                    <TextArea value={item.description} placeholder='نص الخبر' register={register} />
-                    <InputFile name="photo" register={register} />
+                    <Input  register={register} label="العنوان" name="title" placeholder="عنوان الخبر" />
+                    <TextArea  placeholder='نص الخبر' register={register} />
+                    <InputFile setValue={setValue} name="photo" register={register} />
                 </div>
                 <div className='flex justify-center gap-3 mt-5'>
                     <DialogClose asChild>
-                        <Button size="special" >
+                        <Button size="special" type='submit' >
                             تعديل
                         </Button>
                     </DialogClose>

@@ -20,7 +20,7 @@ const Tabs = ({ activeTab, setActiveTab, name, type, tabs, register }: IProps) =
                 htmlFor="name" className="font-medium w-16 text-sm text-gray-600">
                 الفئة :
             </label>
-            <div className="flex gap-2" style={{ scrollbarWidth: "thin", scrollbarColor: "#cfcfcfb8 transparent" }}>
+            <div className="flex gap-2 overflow-x-scroll" style={{ scrollbarWidth: "none", scrollbarColor: "#cfcfcfb8 transparent" }}>
                 {tabs.map((tab: ITabs) => (
                     <Button
                         key={tab.id}

@@ -81,6 +81,7 @@ export interface IMembers{
       name: string,
       job_title: string,
       description: string,
-      photo: string | File,
+      photos?: string | File | File[],
+      photo?: string | File | File[],
     _method?:string,
 }

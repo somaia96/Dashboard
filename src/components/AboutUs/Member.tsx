@@ -36,12 +36,12 @@ function Member({ member }: { member: IMembers }) {
       window.location.reload();
     }, 1000);
   }
+  console.log(member.photo);
   
   return (
     <Card className="mb-5">
-      <CardHeader className="overflow-hidden h-50">
+      <CardHeader className="overflow-hidden h-72">
         {member.photo ? <img src={typeof (member.photo) == "string" ? member.photo : ""}
-        // {/* {member.photo ? <img src="images/logo.png" */}
           alt="card-image"
           className="w-full object-cover" /> : <img
           src={`/images/empty.jpg`}
@@ -62,7 +62,7 @@ function Member({ member }: { member: IMembers }) {
       </CardContent>
       <CardFooter className="justify-center">
         <div className='flex justify-center gap-2 items-end h-auto'>
-          {/* Modal Edit Item */}
+           {/* Modal Edit Item  */}
           <EditDialog>
             <FormEditMember member={member} />
           </EditDialog>

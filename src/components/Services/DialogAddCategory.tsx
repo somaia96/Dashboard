@@ -57,7 +57,7 @@ const DialogAddCategory = ({ label, name, placeholder }: IProps) => {
       </DialogTrigger>
       <DialogContent>
         <h2 className="font-semibold text-primary text-xl mb-5 text-center">اضافة فئة خدمة جديدة</h2>
-        <Input register={register} label={label} name={name} placeholder={placeholder} />
+        <Input register={register} style={{gap:"15px"}} label={label} name={name} placeholder={placeholder} />
         <div className='flex justify-center gap-3 mt-5'>
           <Button
             onClick={handleSubmit(onSubmit)}

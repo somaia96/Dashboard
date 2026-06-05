@@ -53,7 +53,7 @@ export default function FormEditServ({ item, tabs }: { item: IServices, tabs?: I
                         <label htmlFor="name" className="text-sm font-medium w-16 leading-6 text-gray-900">
                             النوع
                         </label>
-                        <div style={{ scrollbarWidth: "thin", scrollbarColor: "#cfcfcfb8 transparent" }} className="overflow-x-scroll py-1 flex rounded-md shadow-sm flex-1 gap-2">
+                        <div className="overflow-x-scroll w-60 max-w-full py-1 flex rounded-md shadow-sm flex-1 gap-2" style={{ scrollbarWidth: "thin", scrollbarColor: "#cfcfcfb8 transparent" }}>
                             {tabs?.map((tab: ITabs) => (
                                 <Button key={tab.id}
                                     type='button'
@@ -70,7 +70,7 @@ export default function FormEditServ({ item, tabs }: { item: IServices, tabs?: I
                 </div>
                 <div className='flex justify-center gap-3 mt-5'>
                     <DialogClose asChild>
-                        <Button size="special" >
+                        <Button size="special" type='submit' >
                             تعديل
                         </Button>
                     </DialogClose>

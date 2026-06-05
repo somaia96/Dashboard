@@ -46,10 +46,15 @@ const TableCom = ({ endIndex, tabs, activeTab, filteredComp, startIndex }: IProp
 
         }
     };
+
+    // Axios post syntax: (url, data, config). 
+    // We must pass an empty body {} so the headers remain in the 3rd argument.
+    // Removing it will misplace the headers and trigger a "401 Unauthorized" error.
     const restoreHandler = (id: number) => {
         try {
-            instance.delete(`/complaints/${id}/restore`, {
+            instance.post(`/complaints/${id}/restore`, {}, {
                 headers: {
+                    "Content-Type": "application/json",
                     Authorization: `Bearer ${getToken()}`
                 }
             })

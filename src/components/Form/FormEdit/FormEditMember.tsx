@@ -13,11 +13,13 @@ import { useEffect } from 'react';
 import { Button } from '../../ui/button';
 import { DialogTitle } from '@radix-ui/react-dialog';
 export default function FormEditMember({ member }: { member: IMembers }) {
-    const { register, handleSubmit, reset } = useForm<IMembers>()
+    const { register, handleSubmit, reset, setValue } = useForm<IMembers>()
     const { toast } = useToast();
+
     const { mutate, isSuccess, isError } = useMutation({
-        mutationFn: (member: IMembers) => {
-            return instance.post(`/council-members/${member.id}`, { ...member, _method: "PUT", }, {
+        mutationFn: (editMember: IMembers) => {
+          
+            return instance.post(`/council-members/${member.id}`, { ...editMember, _method: "PUT" }, {
                 headers: {
                     "Content-Type": "multipart/form-data",
                     Authorization: `Bearer ${getToken()}`
@@ -35,8 +37,9 @@ export default function FormEditMember({ member }: { member: IMembers }) {
         }
     }, [isSuccess, isError, toast, reset]);
 
-    const onSubmit: SubmitHandler<IMembers> = member => {
-        mutate(member)
+    const onSubmit: SubmitHandler<IMembers> = editMember => {
+        mutate(editMember)
+  
     };
 
     return (
@@ -47,11 +50,11 @@ export default function FormEditMember({ member }: { member: IMembers }) {
                     <Input value={member.name} register={register} label="الاسم" name="name" placeholder="اسم العضو" />
                     <Input value={member["job_title"]} register={register} label="المنصب" name="job_title" placeholder="المنصب" />
                     <TextArea value={member.description} label="نبذة" placeholder='نبذة عن العضو' register={register} />
-                    <InputFile name="photo" register={register} />
+                    <InputFile single setValue={setValue} name="photo" register={register} />
                 </div>
                 <div className='flex justify-center gap-3 mt-5'>
                     <DialogClose asChild>
-                        <Button size="special" >
+                        <Button size="special" type='submit' >
                             تعديل
                         </Button>
                     </DialogClose>

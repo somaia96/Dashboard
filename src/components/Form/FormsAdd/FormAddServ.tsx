@@ -15,6 +15,7 @@ export default function FormAddServ({ tabs }: { tabs: ITabs[] }) {
     const [activeTab, setActiveTab] = useState(1)
     const { register, handleSubmit, reset } = useForm<IServices>()
     const { toast } = useToast();
+    
     const { mutate, isSuccess, isError } = useMutation({
         mutationFn: (services: IServices) => {
             return instance.post(`/services`, services, {

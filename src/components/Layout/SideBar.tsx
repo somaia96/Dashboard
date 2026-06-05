@@ -19,7 +19,7 @@ const SideBar = () => {
                 <div className="flex w-4/5 flex-col space-y-3 items-center justify-center">
                     <div className="flex items-center  justify-center">
                         <img className="w-10 h-10" src="/images/logo.png" alt="logo" />
-                        <h3 className="text-[#524F4D] font-bold text-lg">بلدية ضاحية الأسد</h3>
+                        <h3 className="text-[#524F4D] font-bold text-lg">بلدية ضاحية</h3>
                     </div>
                     <div className="bg-primary w-full rounded-full flex items-center justify-between py-1 px-5">
                         <div className="flex items-center justify-center gap-1">
