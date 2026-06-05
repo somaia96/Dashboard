@@ -6,7 +6,7 @@ import TextArea from "../../TextArea";
 import Input from "../../Input";
 import InputFile from "../../InputFile";
 import { useForm, SubmitHandler } from "react-hook-form"
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { Button } from '../../ui/button';
 import Toast from '../../Toast';
 import { useEffect, useState } from 'react';
@@ -16,6 +16,7 @@ export default function FormAddDecision() {
     const { register, handleSubmit, reset, setValue } = useForm<IDecisions>()
     const { toast } = useToast();
     const [fileKey, setFileKey] = useState(0);
+    const queryClient = useQueryClient();
 
     const { mutate, isSuccess, isError } = useMutation({
         mutationFn: (decision: IDecisions) => {
@@ -25,6 +26,9 @@ export default function FormAddDecision() {
                     Authorization: `Bearer ${getToken()}`
                 }
             })
+        },
+         onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: ['decisionData'] });
         }
     });
     useEffect(() => {

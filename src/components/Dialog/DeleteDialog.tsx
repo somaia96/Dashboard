@@ -10,9 +10,10 @@ import {
 interface IProps {
     DeleteItem: any;
     id: number;
-    url?: string
+    url?: string;
+    cashName?:string
 }
-const DeleteDialog = ({  DeleteItem, id, url }: IProps) => {
+const DeleteDialog = ({  DeleteItem, id, url,cashName }: IProps) => {
     return (
         <Dialog>
             <DialogTrigger asChild>
@@ -26,7 +27,7 @@ const DeleteDialog = ({  DeleteItem, id, url }: IProps) => {
                 <div className='flex justify-center gap-3 mt-5'>
                     <DialogClose asChild>
                         <Button
-                            onClick={() => DeleteItem(id, url)}
+                            onClick={() => DeleteItem(id, url,cashName)}
                             size="special">
                             حذف
                         </Button>

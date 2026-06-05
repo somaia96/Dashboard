@@ -8,7 +8,7 @@ import TextArea from "../../TextArea";
 import Input from "../../Input";
 import InputFile from "../../InputFile";
 import { useForm, SubmitHandler } from "react-hook-form"
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import Tabs from '../../Tabs';
 import Toast from '../../Toast';
 import { getTodayDateString } from '../../../utils/functions';
@@ -16,6 +16,8 @@ import { getTodayDateString } from '../../../utils/functions';
 export default function FormAddEvents({ tabs }: { tabs: ITabs[] }) {
     
     const [activeTab, setActiveTab] = useState("")
+        const queryClient = useQueryClient();
+
     const { register, handleSubmit, reset, setValue } = useForm<IEvents>()
     const { toast } = useToast();
     const { mutate, isSuccess, isError } = useMutation({
@@ -27,6 +29,9 @@ export default function FormAddEvents({ tabs }: { tabs: ITabs[] }) {
                 }
             })
         },
+         onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: ['activityData'] });
+        }
     });
     useEffect(() => {
         if (isSuccess) {

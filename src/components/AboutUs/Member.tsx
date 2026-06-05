@@ -14,9 +14,11 @@ import {
 } from "../ui/card";
 import DeleteDialog from "../Dialog/DeleteDialog";
 import EditDialog from "../Dialog/EditDialog";
+import { useQueryClient } from "@tanstack/react-query";
 
 function Member({ member }: { member: IMembers }) {
 
+    const queryClient = useQueryClient();
 
 
   const DeleteItem = async (id: number) => {
@@ -26,6 +28,8 @@ function Member({ member }: { member: IMembers }) {
           Authorization: `Bearer ${getToken()}`,
         }
       });
+            queryClient.invalidateQueries({ queryKey: ['council-members'] });
+        
       // (res.status === 200 || res.status === 201) ? toasty("success","تم الحذف بنجاح") : null;
 
     } catch (error) {

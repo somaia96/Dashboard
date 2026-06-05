@@ -38,7 +38,7 @@ const NewsPage = () => {
     <div className="my-10">
         <FormAddNews />
       {data.slice(startIndex,endIndex).map((news: INews) => (
-        <CardNews news={news as INewsApi} key={news.id} url="/news" />
+        <CardNews news={news as INewsApi} key={news.id} url="/news" cashName="newsData" />
       ))}
       <PaginationComponent page={page} setPage={setPage} endIndex={endIndex} count={count} setStartIndex={setStartIndex} />
     </div>

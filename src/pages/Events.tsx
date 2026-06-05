@@ -66,7 +66,7 @@ const Events = () => {
         ))}
       </div>
       {filteredEvents.slice(startIndex, endIndex).map((news: IEvents) => (
-        <CardNews news={news as INewsApi} key={news.id} url="/activity" tabs={tabs} />
+        <CardNews cashName="activityData" news={news as INewsApi} key={news.id} url="/activity" tabs={tabs} />
       ))}
       <PaginationComponent page={page} setPage={setPage} endIndex={endIndex} count={count} setStartIndex={setStartIndex} />
     </div>

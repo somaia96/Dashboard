@@ -38,7 +38,7 @@ const Decisions = () => {
     <div className="my-10">
         <FormAddDecision />
       {data.slice(startIndex, endIndex).map((news: IDecisions) => (
-        <CardNews news={news as INewsApi} key={news.id} url={"/decision"} />
+        <CardNews cashName="decisionData" news={news as INewsApi} key={news.id} url={"/decision"} />
       ))}
       <PaginationComponent page={page} setPage={setPage} endIndex={endIndex} count={count} setStartIndex={setStartIndex} />
     </div>

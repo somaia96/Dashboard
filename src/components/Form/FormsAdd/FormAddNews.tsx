@@ -6,25 +6,29 @@ import TextArea from "../../TextArea";
 import Input from "../../Input";
 import InputFile from "../../InputFile";
 import { useForm, SubmitHandler } from "react-hook-form"
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { Button } from '../../ui/button';
 import Toast from '../../Toast';
 import { useEffect, useState } from 'react';
 
 export default function FormAddNews() {
-    const { register, handleSubmit, reset,setValue } = useForm<INews>()
+    const { register, handleSubmit, reset, setValue } = useForm<INews>()
     const { toast } = useToast();
     const [fileKey, setFileKey] = useState(0);
+    const queryClient = useQueryClient();
 
-    const { mutate,isSuccess,isError } = useMutation({
+    const { mutate, isSuccess, isError } = useMutation({
         mutationFn: (news: INews) => {
-        
+
             return instance.post(`/news`, news, {
                 headers: {
                     "Content-Type": "multipart/form-data",
                     Authorization: `Bearer ${getToken()}`
                 }
             })
+        },
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: ['newsData'] });
         }
     });
     useEffect(() => {

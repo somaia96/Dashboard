@@ -16,6 +16,7 @@ import {
 } from "./ui/card";
 import DeleteDialog from "./Dialog/DeleteDialog";
 import EditDialog from "./Dialog/EditDialog";
+import { useQueryClient } from "@tanstack/react-query";
 
 interface IProps {
   news: INewsApi,
@@ -23,11 +24,13 @@ interface IProps {
   url: string,
   tabs?: ITabs[],
   order?: number;
+  cashName:string
 }
-export default function CardNews({ order = 0, noPic = true, news, url, tabs }: IProps) {
+export default function CardNews({ order = 0, noPic = true, news, url, tabs ,cashName}: IProps) {
+    const queryClient = useQueryClient();
 
   let timestamp = news.activity_date ? new Date(news.activity_date!) : new Date(news.created_at!);
-  const DeleteItem = async (id: number, url: string) => {
+  const DeleteItem = async (id: number, url: string,cashName:string) => {
 
     try {
        await instance.delete(`${url}/${id}`, {
@@ -35,6 +38,8 @@ export default function CardNews({ order = 0, noPic = true, news, url, tabs }: I
           Authorization: `Bearer ${getToken()}`,
         }
       });
+            queryClient.invalidateQueries({ queryKey: [`${cashName}`] });
+        
       // (res.status === 200 || res.status === 201) ? Toast("تم الحذف بنجاح 👏", "default", toast, "bg-blue-100") : null;
 
     } catch (error) {
@@ -79,7 +84,7 @@ export default function CardNews({ order = 0, noPic = true, news, url, tabs }: I
                       : null}
             </EditDialog>
 
-            <DeleteDialog url={url} id={news.id} DeleteItem={DeleteItem} />
+            <DeleteDialog url={url} id={news.id} DeleteItem={DeleteItem} cashName={cashName} />
           </div>
         </div>
         {timestamp && <CardDescription className="mb-2 text-sm text-gray-600">

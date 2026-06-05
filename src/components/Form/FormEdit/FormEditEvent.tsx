@@ -10,7 +10,7 @@ import TextArea from "../../TextArea";
 import Input from "../../Input";
 import InputFile from "../../InputFile";
 import { useForm, SubmitHandler } from "react-hook-form"
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import Toast from '../../Toast';
 import { DialogTitle } from '@radix-ui/react-dialog';
 
@@ -18,6 +18,8 @@ export default function FormEditEvents({ item, tabs }: { item: IEvents, tabs?: I
     const { register, handleSubmit, reset, setValue } = useForm<IEvents>()
     const { toast } = useToast();
     const [activeTab, setActiveTab] = useState(item.activity_type_name)
+        const queryClient = useQueryClient();
+
     const { mutate, isSuccess, isError } = useMutation({
         mutationFn: (event: IEvents) => {
             return instance.post(`/activity/${item.id}`, { ...event, activity_type_name: activeTab, activity_date: item.activity_date?.toString().split('T')[0], _method: "PUT" }, {
@@ -27,6 +29,9 @@ export default function FormEditEvents({ item, tabs }: { item: IEvents, tabs?: I
                 }
             })
         },
+         onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: ['activityData'] });
+        }
     });
     useEffect(() => {
         if (isSuccess) {

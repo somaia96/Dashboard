@@ -7,12 +7,14 @@ import { useToast } from "../../../hooks/use-toast";
 import TextArea from "../../TextArea";
 import Input from "../../Input";
 import { useForm, SubmitHandler } from "react-hook-form"
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import Toast from '../../Toast';
 import Tabs from '../../Tabs';
 
 export default function FormAddServ({ tabs }: { tabs: ITabs[] }) {
     const [activeTab, setActiveTab] = useState(1)
+        const queryClient = useQueryClient();
+
     const { register, handleSubmit, reset } = useForm<IServices>()
     const { toast } = useToast();
     
@@ -24,6 +26,9 @@ export default function FormAddServ({ tabs }: { tabs: ITabs[] }) {
                     Authorization: `Bearer ${getToken()}`
                 }
             })
+        },
+         onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: ['serviceData'] });
         }
     });
 

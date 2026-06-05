@@ -7,12 +7,14 @@ import TextArea from "../../TextArea";
 import Input from "../../Input";
 import InputFile from "../../InputFile";
 import { useForm, SubmitHandler } from "react-hook-form"
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import Toast from '../../Toast';
 import { DialogTitle } from "../../ui/dialog";
 import { useEffect } from 'react';
 import { Button } from '../../ui/button';
 export default function FormEditNews({ item }: { item: INews }) {
+        const queryClient = useQueryClient();
+
     const { register, handleSubmit, reset, setValue } = useForm<INews>({
         defaultValues: item
     })
@@ -26,6 +28,9 @@ export default function FormEditNews({ item }: { item: INews }) {
                     Authorization: `Bearer ${getToken()}`
                 }
             })
+        },
+         onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: ['newsData'] });
         }
     });
     useEffect(() => {

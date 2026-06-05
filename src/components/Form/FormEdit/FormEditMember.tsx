@@ -6,13 +6,15 @@ import TextArea from "../../TextArea";
 import Input from "../../Input";
 import InputFile from "../../InputFile";
 import { useForm, SubmitHandler } from "react-hook-form"
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import Toast from '../../Toast';
 import { DialogClose } from "../../ui/dialog";
 import { useEffect } from 'react';
 import { Button } from '../../ui/button';
 import { DialogTitle } from '@radix-ui/react-dialog';
 export default function FormEditMember({ member }: { member: IMembers }) {
+        const queryClient = useQueryClient();
+
     const { register, handleSubmit, reset, setValue } = useForm<IMembers>()
     const { toast } = useToast();
 
@@ -25,6 +27,9 @@ export default function FormEditMember({ member }: { member: IMembers }) {
                     Authorization: `Bearer ${getToken()}`
                 }
             })
+        },
+         onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: ['council-members'] });
         }
     });
     useEffect(() => {

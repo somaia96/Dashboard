@@ -93,7 +93,7 @@ import DialogEditCategory from "../components/Services/DialogEditCategory"
           ))}
         </div>
         <div className='flex gap-3 flex-col md:flex-row md:flex-wrap md:justify-between'>
-          {filteredServices.slice(startIndex,endIndex).map((item: IServices) => <CardNews order={1} tabs={tabs} noPic={false} key={item.id} news={item as INewsApi} url='/services' />)}
+          {filteredServices.slice(startIndex,endIndex).map((item: IServices) => <CardNews cashName='serviceData' order={1} tabs={tabs} noPic={false} key={item.id} news={item as INewsApi} url='/services' />)}
         </div>
         <PaginationComponent page={page} setPage={setPage} size={4} endIndex={endIndex} count={count} setStartIndex={setStartIndex} />
     </div>

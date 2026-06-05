@@ -8,12 +8,14 @@ import { useToast } from "../../../hooks/use-toast"
 import TextArea from "../../TextArea";
 import Input from "../../Input";
 import { useForm, SubmitHandler } from "react-hook-form"
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import Toast from '../../Toast';
 import { DialogClose, DialogTitle } from '@radix-ui/react-dialog';
 
 export default function FormEditServ({ item, tabs }: { item: IServices, tabs?: ITabs[] }) {
     const [activeTab, setActiveTab] = useState(item.service_category_id)
+        const queryClient = useQueryClient();
+
     const { register, handleSubmit, reset } = useForm<IServices>()
     const { toast } = useToast();
     const { mutate, isSuccess, isError } = useMutation({
@@ -24,6 +26,9 @@ export default function FormEditServ({ item, tabs }: { item: IServices, tabs?: I
                     Authorization: `Bearer ${getToken()}`
                 }
             })
+        },
+         onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: ['serviceData'] });
         }
     });
     useEffect(() => {

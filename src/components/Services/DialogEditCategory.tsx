@@ -6,11 +6,13 @@ import {
   DialogTrigger,
 } from "../ui/dialog";
 import { ITabs } from "@/interfaces";
+
 interface IProps {
   addArr: never[],
   addToDelArr: (val: number) => void,
   submitEditCatHandler: () => void,
 }
+
 const DialogEditCategory = ({ addArr, addToDelArr, submitEditCatHandler }: IProps) => {
   return (
     <Dialog>
@@ -36,12 +38,15 @@ const DialogEditCategory = ({ addArr, addToDelArr, submitEditCatHandler }: IProp
           })}
         </div>
         <div className='flex justify-center gap-3 mt-5'>
-          <button
-            onClick={submitEditCatHandler}
-            className="w-1/3 my-3 rounded-lg bg-primary py-2 font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-          >
-            حفظ التعديلات
-          </button>
+          <DialogClose asChild>
+
+            <button
+              onClick={submitEditCatHandler}
+              className="w-1/3 my-3 rounded-lg bg-primary py-2 font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+            >
+              حفظ التعديلات
+            </button>
+          </DialogClose>
           <DialogClose asChild>
             <Button type='button' variant="outline" size="special">
               الغاء
